@@ -6,13 +6,18 @@ import (
 	"net/smtp"
 )
 
-type Provider int
-
 const (
-	TMO Provider = iota // 0
-	ATT
-	VRZ
+	TMO string = "TMO"
+	ATT string = "ATT"
+	VRZ string = "VRZ"
 )
+
+func CheckProvider(prov string) error {
+	if prov != TMO && prov != ATT && prov != VRZ {
+		return fmt.Errorf("invalid provider specified. options are 'TMO', 'ATT', or 'VRZ'")
+	}
+	return nil
+}
 
 type Client struct {
 	client   *http.Client
@@ -31,7 +36,7 @@ func NewClient(username string, password string, smtpHost string, smtpPort strin
 	}
 }
 
-func (c *Client) Send(phoneNum int, prov Provider, subject string, message string) error {
+func (c *Client) Send(phoneNum int, prov string, subject string, message string) error {
 	var recipient string
 	switch prov {
 	case TMO:
@@ -41,7 +46,7 @@ func (c *Client) Send(phoneNum int, prov Provider, subject string, message strin
 	case VRZ:
 		recipient = fmt.Sprintf("%d@vtext.com", phoneNum)
 	default:
-		return fmt.Errorf("invalid provider specified: %d", prov)
+		return fmt.Errorf("invalid provider specified: %s", prov)
 	}
 
 	email := "From: " + c.username + "\n" +
