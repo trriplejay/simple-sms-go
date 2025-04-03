@@ -54,7 +54,7 @@ func (c *Client) Send(phoneNum int, prov string, subject string, message string)
 		"Subject: " + subject + "\n\n" +
 		message
 
-	err := smtp.SendMail(c.smtpHost+c.smtpPort,
+	err := smtp.SendMail(c.smtpHost+":"+c.smtpPort,
 		smtp.PlainAuth("", c.username, c.password, c.smtpHost),
 		c.username, []string{recipient}, []byte(email))
 
