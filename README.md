@@ -7,7 +7,7 @@ a simple package for sending sms via carrier email gateway, using smtp.PlainAuth
 intialize a client with username, password, and details for your smtp provider
 
 ```
-emailClient := simplesmsgo.NewClient("username", "password", "smtp.gmail.com", "587")
+emailClient := simplesms.NewClient("username", "password", "smtp.gmail.com", "587")
 ```
 
 send the sms by providin a number, provider, subject, and message
